@@ -66,7 +66,9 @@ namespace Mess.Controllers
                     {
                         Token = await GenerateJwtToken(userInDb),
                         UserId = userInDb.Id,
-                        ExpireTime = DateTime.Now.AddHours(Convert.ToDouble(_configuration["JwtExpireHours"]))
+                        ExpireTime = DateTime.Now.AddHours(Convert.ToDouble(_configuration["JwtExpireHours"])),
+                        FirstName=userInDb.FirstName,
+                        LastName=userInDb.LastName
                     };
 
                     return Ok(authData);
@@ -103,7 +105,9 @@ namespace Mess.Controllers
                 {
                     Token = await GenerateJwtToken(user),
                     UserId = user.Id,
-                    ExpireTime = DateTime.Now.AddHours(Convert.ToDouble(_configuration["JwtExpireHours"]))
+                    ExpireTime = DateTime.Now.AddHours(Convert.ToDouble(_configuration["JwtExpireHours"])),
+                    FirstName=user.FirstName,
+                    LastName=user.LastName
                 };
 
                 return Ok(authData);

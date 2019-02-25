@@ -3,10 +3,10 @@ import router from '../router/index'
 
 const state={
     token: null,
-
     userId: null,
-  
-    expireTime: null
+    expireTime: null,
+    firstName:null,
+    lastName:null
 }
 
 const getters = {
@@ -21,6 +21,12 @@ const getters = {
     },
     getExpirationTime(state){
         return state.expireTime;
+    },
+    getUserId(state){
+        return state.userId;
+    },
+    getFullName(){
+        return state.firstName+" "+state.lastName;
     }
 }
 
@@ -29,7 +35,9 @@ const mutations={
         state.token=payload.token;
         state.userId=payload.userId;
         state.expireTime=payload.expireTime;
-        console.log(payload.expireTime);
+        state.firstName=payload.firstName;
+        state.lastName=payload.lastName;
+
     },
     clearAuth:(state)=>{
         state.token=null;
@@ -39,12 +47,15 @@ const mutations={
 }
 
 const actions={
-    login:({commit,dispatch},authData)=>{
+    login({commit,dispatch},authData){
+        commit('changeLoader');
         axios.post('/api/account/login',authData)
         .then(({data})=>{
             localStorage.setItem('token',data.token);
             localStorage.setItem('userId',data.userId);
             localStorage.setItem('expireTime',data.expireTime);
+            localStorage.setItem('firstName',data.firstName);
+            localStorage.setItem('lastName',data.lastName);
 
             commit('authData',data);
             this._vm.$http.defaults.headers.common['Authorization']="bearer "+data.token;
@@ -53,14 +64,21 @@ const actions={
         })
         .catch(()=>{
             // here should be toaster showing error message
-        });
+        })
+        .then(() => {
+            commit('changeLoader');
+            
+        })
     },
-    register:({commit,dispatch},registerModel)=>{
+    register({commit,dispatch},registerModel){
+        commit('changeLoader');
         axios.post('/api/account/Register',registerModel)
         .then(({data})=>{
             localStorage.setItem('token',data.token);
             localStorage.setItem('userId',data.userId);
             localStorage.setItem('expireTime',data.expireTime);
+            localStorage.setItem('firstName',data.firstName);
+            localStorage.setItem('lastName',data.lastName);
 
             commit('authData',data);
             
@@ -70,9 +88,12 @@ const actions={
         })
         .catch(()=>{
             // here should be toaster showing error message
+        })
+        .then(()=>{
+            commit('changeLoader');
         });
     },
-    tryLogin:({commit,dispatch})=>{
+    tryLogin({commit,dispatch}){
         let token=localStorage.getItem('token');
         if(!token){
             return;
@@ -80,16 +101,18 @@ const actions={
         let expireIn=localStorage.getItem('expireTime');
         let userId=localStorage.getItem('userId');
         const expireTime=new Date(expireIn);
+        let firstName=localStorage.getItem('firstName');
+        let lastName=localStorage.getItem('lastName');
         const now=new Date();
         if(now>=expireTime){
             return;
         }
-        this._vm.$http.defaults.headers.common['Authorization']="bearer "+data.token;
-        commit('authData',{userId,token,expireTime});
+        this._vm.$http.defaults.headers.common['Authorization']="bearer "+token;
+        commit('authData',{userId,token,expireTime,firstName,lastName});
         dispatch('tryLogout');
 
     },
-    logout:({commit})=>{
+    logout({commit}){
         localStorage.removeItem('token');
         localStorage.removeItem('expireTime');
         localStorage.removeItem('userId');
@@ -98,7 +121,7 @@ const actions={
         delete this._vm.$http.defaults.headers.common['Authorization'];
         router.replace('/login')
     },
-    tryLogout:({dispatch})=>{
+    tryLogout({dispatch}){
         let expireTime=new Date(localStorage.getItem('expireTime'));
         let miliseconds=this._vm.$moment(expireTime).diff(new Date(),'seconds')*1000;
         setTimeout(() => dispatch('logout'), miliseconds);

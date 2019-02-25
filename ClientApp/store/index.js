@@ -9,13 +9,28 @@ const MAIN_SET_COUNTER = 'MAIN_SET_COUNTER'
 
 // STATE
 const state = {
-  counter: 1
+  counter: 1,
+  isLoading: false
+}
+
+const getters = {
+
+  isLoading(state){
+
+    return state.isLoading;
+  }
+
 }
 
 // MUTATIONS
 const mutations = {
   [MAIN_SET_COUNTER] (state, obj) {
     state.counter = obj.counter
+  },
+
+  changeLoader(state){
+
+    state.isLoading = !state.isLoading;
   }
 }
 
@@ -30,6 +45,7 @@ export default new Vuex.Store({
   state,
   mutations,
   actions,
+  getters,
   modules:{
     auth
   }

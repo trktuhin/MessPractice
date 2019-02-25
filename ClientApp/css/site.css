@@ -7,9 +7,8 @@
 .nav-item a.active,
 .nav-item a.active:hover,
 .nav-item a.active:focus {
-    background-color: #4189C7;
+    background-color: rgb(137, 24, 202);
     color: white;
-    text-decoration: underline;
 }
 
 .nav-item a,
@@ -71,7 +70,7 @@
     
     .navbar a {
         /* If a menu item's text is too long, truncate it */
-        width: 95%; /* Bug to fix here. Width 100% overflow. */
+        width: 100%; /* Bug to fix here. Width 100% overflow. */
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
