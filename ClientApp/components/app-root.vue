@@ -1,26 +1,23 @@
 <template>
-    <div id="app" class="container-fluid">
+  <v-app id="app" class="container-fluid">
         <div class="row">
-            <div class="col-md-3">
-                <nav-menu params="route: route"></nav-menu>
-            </div>
-            <div class="col-sm-9">
-              <appSpinner v-if="isSpin"></appSpinner>
-              <router-view></router-view>
-            </div>
+              <navbar></navbar>
+              <v-content class="grey">
+                <appSpinner v-if="isSpin"></appSpinner>
+                <router-view></router-view>
+              </v-content>
         </div>
-    </div>
+    </v-app>
 </template>
 
 <script>
-
     import spinner from './spinner'
-    import NavMenu from './nav-menu'
+    import Nav from './Nav'
 
     export default {
       components: {
-        'nav-menu': NavMenu,
-        appSpinner: spinner
+        appSpinner: spinner,
+        'navbar':Nav
       },
       computed:{
 

@@ -1,6 +1,6 @@
 <template>
     <div id="register">
-        <div class="register-form">
+        <div class="register-form primary darken-3">
             <form @submit.prevent="onSubmit">
                 <div class="input">
                     <label for="firstName">First Name</label>
@@ -46,9 +46,12 @@
                         id="confirmPassword"
                         v-model="confirmPassword">
                 </div>
-                <div class="submit">
+                <v-btn type="button" @click="register" class="primary darken-2 mx-auto">
+                    Submit
+                </v-btn>
+                <!-- <div class="submit">
                     <button type="button" @click="register">Submit</button>
-                </div>
+                </div> -->
             </form>
         </div>
     </div>
@@ -85,8 +88,11 @@ export default {
     color:red;
 }
 .register-form {
+    position: relative;
     width: 400px;
-    margin: 30px auto;
+    top:30px;
+    left:70%;
+    margin-left: -400px;
     border: 1px solid #eee;
     padding: 20px;
     box-shadow: 0 2px 3px rgb(168, 167, 167);
@@ -98,7 +104,6 @@ export default {
 
   .input label {
     display: block;
-    color: #4e4e4e;
     margin-bottom: 6px;
   }
 
@@ -111,7 +116,7 @@ export default {
     width: 100%;
     padding: 6px 12px;
     box-sizing: border-box;
-    border: 1px solid #ccc;
+    background-color: #eee;
   }
 
   .input.inline input {
@@ -120,35 +125,11 @@ export default {
 
   .input input:focus {
     outline: none;
-    border: 1px solid #521751;
     background-color: #eee;
   }
 
   .input select {
     border: 1px solid #ccc;
     font: inherit;
-  }
-
-  .submit button {
-    border: 1px solid #521751;
-    color: #521751;
-    padding: 10px 20px;
-    font: inherit;
-    cursor: pointer;
-  }
-
-  .submit button:hover,
-  .submit button:active {
-    background-color: #521751;
-    color: white;
-  }
-
-  .submit button[disabled],
-  .submit button[disabled]:hover,
-  .submit button[disabled]:active {
-    border: 1px solid #ccc;
-    background-color: transparent;
-    color: #ccc;
-    cursor: not-allowed;
   }
 </style>

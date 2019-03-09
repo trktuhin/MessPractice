@@ -1,6 +1,6 @@
 <template>
     <div id="login">
-        <div class="login-form">
+        <div class="login-form primary">
             <div class="input">
                 <label for="userName">User Name</label>
                 <input
@@ -44,13 +44,16 @@ export default {
     }
 }
 </script>
-<style>
+<style scoped>
 .error{
     color:red;
 }
 .login-form {
+    position: relative;
     width: 400px;
-    margin: 150px auto;
+    top:120px;
+    left:70%;
+    margin-left: -400px;
     border: 1px solid #eee;
     padding: 20px;
     box-shadow: 0 2px 3px rgb(168, 167, 167);
@@ -62,7 +65,6 @@ export default {
 
   .input label {
     display: block;
-    color: #4e4e4e;
     margin-bottom: 6px;
   }
 
@@ -75,7 +77,7 @@ export default {
     width: 100%;
     padding: 6px 12px;
     box-sizing: border-box;
-    border: 1px solid #ccc;
+    border: 1px solid rgb(26, 223, 36);
   }
 
   .input.inline input {
